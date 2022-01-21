@@ -5,7 +5,7 @@ class MoviesApiControllerClass
 {
     async getMovies(req, res)
     {
-        return MoviesApiService.getMovies()
+        return MoviesApiService.getMovies(req, res)
     }
 }
 

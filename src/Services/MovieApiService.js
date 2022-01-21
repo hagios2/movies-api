@@ -46,7 +46,7 @@ class MoviesApiServiceClass
         try{
             const { episode_id } = req.params
             
-            const comments = await Comment.findAll({ where: { episode_id }})
+            const comments = await Comment.findAll({ where: { episode_id }, order: [['createdAt', 'DESC']]})
 
             return successResponse(req, res, 'success', comments)
         }

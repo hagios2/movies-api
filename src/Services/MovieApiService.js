@@ -94,12 +94,9 @@ class MoviesApiServiceClass
     }
 
     filterGender = (characterList, filterKey) => {
-        console.log(characterList.length, 'before')
         if (filterKey) {
             characterList = characterList.filter(character => filterKey === character.gender)
         }
-
-        console.log(characterList.length, 'after')
 
         const totalHeight = characterList.reduce((a, b) => a + Number(b.height), 0)
            

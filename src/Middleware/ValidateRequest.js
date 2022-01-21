@@ -12,17 +12,4 @@ const ValidateRequest = (validator) => async (req, res, next) => {
   }
 }
 
-// const validateRequestQuery = (schema: AnySchema) => async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     await schema.validate({
-//       query: req.query
-//     })
-
-//     return next()
-//   } catch (error) {
-//     log.error(error)
-//     return errorResponse(req, res, error)
-//   }
-// }
-
 export { ValidateRequest }

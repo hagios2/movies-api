@@ -25,6 +25,26 @@ class MoviesApiServiceClass
             return errorResponse(req, res, error)
         }
     }
+
+    async addCommentToAMovie(req, res)
+    {
+        try{
+            const { episode_id } = req.params
+
+            const { comment } = req.body 
+
+            if (comment) {
+                await Comment.create({episode_id, comment})
+
+                return successResponse(req, res, 'comment added', {}, 201)
+            } else {
+                return errorResponse(req, res, 'comment is required', 422)
+            }
+        }
+        catch (error) {
+            return errorResponse(req, res, error)
+        }
+    }
 }
 
 const MoviesApiService = new MoviesApiServiceClass()

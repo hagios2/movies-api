@@ -1,4 +1,3 @@
-import { errorResponse,successResponse } from '../Responses/response.js'
 import { MoviesApiService } from '../Services/MovieApiService.js'
 
 class MoviesApiControllerClass
@@ -6,6 +5,16 @@ class MoviesApiControllerClass
     async getMovies(req, res)
     {
         return MoviesApiService.getMovies(req, res)
+    }
+
+    async addCommentToAMovie(req, res)
+    {
+        return MoviesApiService.addCommentToAMovie(req, res)
+    }
+
+    async fetchAMoviesComments(req, res)
+    {
+        return MoviesApiService.fetchAMoviesComments(req, res)
     }
 }
 

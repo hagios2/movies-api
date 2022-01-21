@@ -1,11 +1,17 @@
-const url = process.env.DB_URL
+import { Sequelize } from 'sequelize'
 
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true,  useCreateIndex: true})
+const DB = process.env.DATABASE
+const USERNAME = process.env.USERNAME
+const PASSWORD = process.env.PASSWORD
+const HOST = process.env.HOST
 
-const connection = mongoose.connection
+console.log(DB, USERNAME, PASSWORD, HOST)
 
-connection.once('open', () => {
-    console.log('connection with monogo established succussfully')
-})
+const sequelize = new Sequelize(DB, USERNAME, PASSWORD, 
+    {
+        host: HOST,
+        dialect: 'mysql',
+    });
 
-export { connection }
+
+export default sequelize

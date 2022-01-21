@@ -15,8 +15,10 @@
     "dayjs": "^1.10.7",
     "env-cmd": "^10.1.0",
     "express": "^4.17.2",
+    "mysql2": "^2.3.3",
     "pino": "^7.6.3",
-    "pino-pretty": "^7.3.0"
+    "pino-pretty": "^7.3.0",
+    "sequelize": "^6.13.0"
   },
   "devDependencies": {
     "eslint": "^8.7.0",

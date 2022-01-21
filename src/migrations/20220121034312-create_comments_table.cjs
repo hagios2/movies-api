@@ -15,6 +15,10 @@ module.exports = {
       },
       comment: {
         type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      },
+      ip_address: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false
       },
       createdAt: {

@@ -22,7 +22,7 @@ class MoviesApiServiceClass
             return successResponse(req, res, 'success', movies)
         }
         catch (error) {
-            return errorResponse(req, res, error)
+            return errorResponse(req, res, error.message)
         }
     }
 
@@ -33,16 +33,28 @@ class MoviesApiServiceClass
 
             const { comment } = req.body 
 
-            if (comment) {
-                await Comment.create({episode_id, comment})
+            const ip_address = req.ip
 
-                return successResponse(req, res, 'comment added', {}, 201)
-            } else {
-                return errorResponse(req, res, 'comment is required', 422)
-            }
+            await Comment.create({episode_id, comment, ip_address})
+
+            return successResponse(req, res, 'comment added', {}, 201)
         }
         catch (error) {
-            return errorResponse(req, res, error)
+            return errorResponse(req, res, error.message)
+        }
+    }
+
+    async fetchAMoviesComments(req, res)
+    {
+        try{
+            const { episode_id } = req.params
+            
+            const comments = await Comment.findAll({ where: { episode_id }})
+
+            return successResponse(req, res, 'success', comments)
+        }
+        catch (error) {
+            return errorResponse(req, res, error.message)
         }
     }
 }

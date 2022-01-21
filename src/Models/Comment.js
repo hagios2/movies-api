@@ -15,16 +15,18 @@ Model.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    comment: {
-        type: DataTypes.TEXT,
+    ip_address: {
+        type: DataTypes.STRING,
         allowNull: false
+      },
+    comment: {
+        type: DataTypes.TEXT(500),
+        allowNull: false,
     },
 }, {
   sequelize,
   timestamps: true,
   modelName: 'comments'
-});
-
-console.log(Comment === sequelize.models.Comment)
+})
 
 export { Comment }

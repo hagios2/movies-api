@@ -18,7 +18,8 @@
     "mysql2": "^2.3.3",
     "pino": "^7.6.3",
     "pino-pretty": "^7.3.0",
-    "sequelize": "^6.13.0"
+    "sequelize": "^6.13.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "eslint": "^8.7.0",

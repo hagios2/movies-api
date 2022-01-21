@@ -9,11 +9,11 @@ const router = express.Router()
 
 router.get("/fetch/movies", MoviesApiController.getMovies)
 
-router.post("/add/movie/:episode_id/comment", ValidateRequest(commentRequestSchema), MoviesApiController.addCommentToAMovie)
+router.post("/add/movie/:filmId/comment", ValidateRequest(commentRequestSchema), MoviesApiController.addCommentToAMovie)
 
-router.get("/fetch/movie/:episode_id/comments", MoviesApiController.fetchAMoviesComments)
+router.get("/fetch/movie/:filmId/comments", MoviesApiController.fetchAMoviesComments)
 
-router.get("/fetch/movie/:episode_id/characters", MoviesApiController.fetchAMoviesCharacters)
+router.get("/fetch/movie/:filmId/characters", MoviesApiController.fetchAMoviesCharacters)
 
 //------------------------------------ End of Route -----------------------------------------------
 

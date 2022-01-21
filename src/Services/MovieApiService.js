@@ -11,11 +11,13 @@ class MoviesApiServiceClass
 
             const movies = await Promise.all(movieData.map( async (data) => {
 
-               const {title, episode_id, opening_crawl, release_date} = data
+               const {title, opening_crawl, release_date, url} = data
 
-               const comments = await Comment.count({where: {episode_id}})
+               const filmId = url.split('/')[5]
 
-               return { title, episode_id, opening_crawl, release_date, comments }
+               const comments = await Comment.count({where: {filmId}})
+
+               return { filmId, title, opening_crawl, release_date, comments}
             }))
     
             return successResponse(req, res, 'success', movies)
@@ -27,13 +29,13 @@ class MoviesApiServiceClass
 
     addCommentToAMovie = async (req, res) => {
         try{
-            const { episode_id } = req.params
+            const { filmId } = req.params
 
             const { comment } = req.body 
 
             const ip_address = req.ip.split(':')[3]
 
-            await Comment.create({episode_id, comment, ip_address: ip_address})
+            await Comment.create({filmId, comment, ip_address: ip_address})
 
             return successResponse(req, res, 'comment added', {}, 201)
         }
@@ -44,9 +46,9 @@ class MoviesApiServiceClass
 
     fetchAMoviesComments = async (req, res) => {
         try{
-            const { episode_id } = req.params
+            const { filmId } = req.params
             
-            const comments = await Comment.findAll({ where: { episode_id }, order: [['createdAt', 'DESC']]})
+            const comments = await Comment.findAll({ where: { filmId }, order: [['createdAt', 'DESC']]})
 
             return successResponse(req, res, 'success', comments)
         }
@@ -57,7 +59,11 @@ class MoviesApiServiceClass
 
     fetchAMoviesCharacters = async (req, res) => {
         try{
+            const { filmId } = req.params
+
             const characterResponse = await axios.get('https://swapi.py4e.com/api/people')
+
+            const movieCharacter = this.getMovieCharacter(characterResponse.data.results, filmId)
 
             const {sortField, order, filter} = req.query
 
@@ -79,8 +85,13 @@ class MoviesApiServiceClass
         }
     }
 
-    filterGender = (characterList, filterKey) => {
+    getMovieCharacter = async (allCharacters, filmId) => {
+        allCharacters.filter((character) => {
+            return character.films.filter((film) => Number(film.split('/')[5]) === Number(filmId))
+        })
+    }
 
+    filterGender = (characterList, filterKey) => {
         if (filterKey) {
             const filteredCharacters = characterList.filter(character => filterKey === character.gender)
 

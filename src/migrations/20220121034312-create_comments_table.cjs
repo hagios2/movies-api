@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      episode_id: {
+      filmId: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
       },

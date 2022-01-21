@@ -11,7 +11,7 @@ Model.init({
         autoIncrement: true,
         primaryKey: true
     },
-    episode_id: {
+    filmId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },

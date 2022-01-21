@@ -31,9 +31,9 @@ class MoviesApiServiceClass
 
             const { comment } = req.body 
 
-            const ip_address = req.ip
+            const ip_address = req.ip.split(':')[3]
 
-            await Comment.create({episode_id, comment, ip_address})
+            await Comment.create({episode_id, comment, ip_address: ip_address})
 
             return successResponse(req, res, 'comment added', {}, 201)
         }

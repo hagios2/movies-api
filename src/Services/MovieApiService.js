@@ -3,8 +3,7 @@ import axios from 'axios'
 import { successResponse, errorResponse } from '../Responses/response.js'
 class MoviesApiServiceClass
 {
-    async getMovies(req, res)
-    {
+    getMovies = async(req, res) => {
         try{
             const movieResponse = await axios.get('https://swapi.py4e.com/api/films')
 
@@ -26,8 +25,7 @@ class MoviesApiServiceClass
         }
     }
 
-    async addCommentToAMovie(req, res)
-    {
+    addCommentToAMovie = async (req, res) => {
         try{
             const { episode_id } = req.params
 
@@ -44,8 +42,7 @@ class MoviesApiServiceClass
         }
     }
 
-    async fetchAMoviesComments(req, res)
-    {
+    fetchAMoviesComments = async (req, res) => {
         try{
             const { episode_id } = req.params
             
@@ -57,8 +54,77 @@ class MoviesApiServiceClass
             return errorResponse(req, res, error.message)
         }
     }
+
+    fetchAMoviesCharacters = async (req, res) => {
+        try{
+            const characterResponse = await axios.get('https://swapi.py4e.com/api/people')
+
+            const {sortField, order, filter} = req.query
+
+            const sortDirection = order  === 'ASC' ? this.sortCharactersAsc(sortField) : this.sortCharactersDesc(sortField)
+
+            const movieCharacterData = characterResponse.data.results.sort(sortDirection)
+
+            const characters = movieCharacterData.map((data) => {
+
+                const { name, gender, height } = data
+
+                return { name, gender, height}
+            })
+    
+            return successResponse(req, res, 'success', this.filterGender(characters, filter))
+        }
+        catch (error) {
+            return errorResponse(req, res, error.message)
+        }
+    }
+
+    filterGender = (characterList, filterKey) => {
+
+        if (filterKey) {
+            const filteredCharacters = characterList.filter(character => filterKey === character.gender)
+
+            const totalHeight = filteredCharacters.reduce((a, b) => a + Number(b.height), 0)
+           
+            return { 
+                characterList: filteredCharacters, 
+                metadata: 
+                    { 
+                        totalNumber: filteredCharacters.length,
+                        totalHeightInFeet: parseFloat(totalHeight * 0.03281).toFixed(4),
+                        totalHeightInInches: parseFloat(totalHeight * 0.3937).toFixed(4)
+                    }
+                }
+        }
+
+        return { characterList }
+    }
+
+    sortCharactersAsc = (sortKey) => {
+        return function (a, b) {
+            if (a[sortKey] < b[sortKey]) {
+                return -1;
+            }
+            if (a[sortKey] > b[sortKey]) {
+                return 1;
+            }
+            return 0;
+        };
+    };
+    
+    sortCharactersDesc = (sortKey) => {
+        return function (a, b) {
+            if (a[sortKey] > b[sortKey]) {
+                return -1;
+            }
+            if (a[sortKey] < b[sortKey]) {
+                return 1;
+            }
+            return 0;
+        };
+    };
 }
 
-const MoviesApiService = new MoviesApiServiceClass()
+const MoviesApiService = new MoviesApiServiceClass() 
 
 export { MoviesApiService }

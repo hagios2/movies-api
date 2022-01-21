@@ -2,19 +2,20 @@ import { MoviesApiService } from '../Services/MovieApiService.js'
 
 class MoviesApiControllerClass
 {
-    async getMovies(req, res)
-    {
+    getMovies = async(req, res) => {
         return MoviesApiService.getMovies(req, res)
     }
 
-    async addCommentToAMovie(req, res)
-    {
+    addCommentToAMovie = async(req, res) => {
         return MoviesApiService.addCommentToAMovie(req, res)
     }
 
-    async fetchAMoviesComments(req, res)
-    {
+    fetchAMoviesComments = async(req, res) => {
         return MoviesApiService.fetchAMoviesComments(req, res)
+    }
+
+    fetchAMoviesCharacters = async (req, res) => {
+        return MoviesApiService.fetchAMoviesCharacters(req, res)
     }
 }
 

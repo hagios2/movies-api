@@ -13,6 +13,8 @@ router.post("/add/movie/:episode_id/comment", ValidateRequest(commentRequestSche
 
 router.get("/fetch/movie/:episode_id/comments", MoviesApiController.fetchAMoviesComments)
 
+router.get("/fetch/movie/:episode_id/characters", MoviesApiController.fetchAMoviesCharacters)
+
 //------------------------------------ End of Route -----------------------------------------------
 
 

@@ -63,19 +63,21 @@ class MoviesApiServiceClass
 
             const characterResponse = await axios.get('https://swapi.py4e.com/api/people')
 
-            const movieCharacter = this.getMovieCharacter(characterResponse.data.results, filmId)
+            const movieCharacterData = this.getMovieCharacters(characterResponse.data.results, filmId)
 
             const {sortField, order, filter} = req.query
 
             const sortDirection = order  === 'ASC' ? this.sortCharactersAsc(sortField) : this.sortCharactersDesc(sortField)
 
-            const movieCharacterData = characterResponse.data.results.sort(sortDirection)
+            const movieCharacters = movieCharacterData.sort(sortDirection)
 
-            const characters = movieCharacterData.map((data) => {
+            const characters = movieCharacters.map((data) => {
 
                 const { name, gender, height } = data
 
-                return { name, gender, height}
+                const characterId = data.url.split('/')[5]
+
+                return { characterId, name, gender, height}
             })
     
             return successResponse(req, res, 'success', this.filterGender(characters, filter))
@@ -85,34 +87,38 @@ class MoviesApiServiceClass
         }
     }
 
-    getMovieCharacter = async (allCharacters, filmId) => {
-        allCharacters.filter((character) => {
-            return character.films.filter((film) => Number(film.split('/')[5]) === Number(filmId))
-        })
+    getMovieCharacters = (allCharacters, filmId) => {
+        return allCharacters.filter((character) => 
+            character.films.includes(`https://swapi.py4e.com/api/films/${filmId}/`)
+        )
     }
 
     filterGender = (characterList, filterKey) => {
+        console.log(characterList.length, 'before')
         if (filterKey) {
-            const filteredCharacters = characterList.filter(character => filterKey === character.gender)
-
-            const totalHeight = filteredCharacters.reduce((a, b) => a + Number(b.height), 0)
-           
-            return { 
-                characterList: filteredCharacters, 
-                metadata: 
-                    { 
-                        totalNumber: filteredCharacters.length,
-                        totalHeightInFeet: parseFloat(totalHeight * 0.03281).toFixed(4),
-                        totalHeightInInches: parseFloat(totalHeight * 0.3937).toFixed(4)
-                    }
-                }
+            characterList = characterList.filter(character => filterKey === character.gender)
         }
 
-        return { characterList }
+        console.log(characterList.length, 'after')
+
+        const totalHeight = characterList.reduce((a, b) => a + Number(b.height), 0)
+           
+        return { 
+            characterList, 
+            metadata: 
+                { 
+                    totalNumber: characterList.length,
+                    totalHeightInFeet: parseFloat(totalHeight * 0.03281).toFixed(4),
+                    totalHeightInInches: parseFloat(totalHeight * 0.3937).toFixed(4)
+                }
+            }
     }
 
     sortCharactersAsc = (sortKey) => {
+        
         return function (a, b) {
+            a[sortKey] = sortKey === 'height' ? Number(a[sortKey]) : a[sortKey]
+            b[sortKey] = sortKey === 'height' ? Number(b[sortKey]) : b[sortKey]
             if (a[sortKey] < b[sortKey]) {
                 return -1;
             }
@@ -125,6 +131,9 @@ class MoviesApiServiceClass
     
     sortCharactersDesc = (sortKey) => {
         return function (a, b) {
+            a[sortKey] = sortKey === 'height' ? Number(a[sortKey]) : a[sortKey]
+            b[sortKey] = sortKey === 'height' ? Number(b[sortKey]) : b[sortKey]
+
             if (a[sortKey] > b[sortKey]) {
                 return -1;
             }

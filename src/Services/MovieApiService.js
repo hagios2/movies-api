@@ -104,9 +104,9 @@ class MoviesApiServiceClass
             characterList, 
             metadata: 
                 { 
-                    totalNumber: characterList.length,
-                    totalHeightInFeet: parseFloat(totalHeight * 0.03281).toFixed(4),
-                    totalHeightInInches: parseFloat(totalHeight * 0.3937).toFixed(4)
+                    totalNumberOfCharacters: characterList.length,
+                    totalHeightOfCharactersInFeet: parseFloat(totalHeight * 0.03281).toFixed(4),
+                    totalHeightOfCharactersInInches: parseFloat(totalHeight * 0.3937).toFixed(4)
                 }
             }
     }

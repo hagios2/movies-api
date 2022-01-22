@@ -10,7 +10,7 @@ console.log(DB, USERNAME, PASSWORD, HOST)
 const sequelize = new Sequelize(DB, USERNAME, PASSWORD, 
     {
         host: HOST,
-        dialect: 'postgress',
+        dialect: 'postgres',
     });
 
 

@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { app } from '../app.js'
 import { testDbConnect, testDbClose } from '../config/test_db'
 import faker from 'faker'
-
+import {jest} from '@jest/globals'
 
 beforeAll(async () => await testDbConnect())
 afterAll(async () => await testDbClose())
@@ -10,6 +10,7 @@ afterAll(async () => await testDbClose())
 describe('starwars movie api', () => {
   describe('GET /api/fetch/movies', () => {
     it('should respond with 200 status', async () => {
+      jest.setTimeout(30000);
 
       const response = await supertest(app).get('/api/fetch/movies').send({})
 
@@ -37,7 +38,7 @@ describe('starwars movie api', () => {
     })
 
     it('should validate comment should be limited to 500 words', async () => {
-      const comment = faker.lorem.paragraphs()
+      const comment = faker.lorem.words(700)
 
       const response = await supertest(app).post('/api/add/movie/1/comment').send({comment})
 

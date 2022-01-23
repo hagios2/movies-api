@@ -9,7 +9,7 @@
     "test": "env-cmd -f .env node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --detectOpenHandles --forceExit",
     "db_migration": "npx sequelize-cli db:migrate --env production",
     "db_local_migration": "npx sequelize-cli db:migrate --env dev",
-    "dev_test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --watchAll --detectOpenHandles --forceExit"
+    "dev_test": "NODE_ENV=test env-cmd -f .env node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --watchAll --detectOpenHandles --forceExit"
   },
   "author": "Emmanuel Oteng Wilson",
   "license": "ISC",

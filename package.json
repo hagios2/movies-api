@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_ENV=dev env-cmd -f .env nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db_migration": "npx sequelize-cli db:migrate --env production"
+    "test": "NODE_ENV=test env-cmd -f .env node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --watchAll --detectOpenHandles --forceExit",
+    "db_migration": "npx sequelize-cli db:migrate --env production",
+    "db_local_migration": "npx sequelize-cli db:migrate --env dev"
   },
   "author": "Emmanuel Oteng Wilson",
   "license": "ISC",
@@ -27,6 +28,8 @@
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
-    "nodemon": "^2.0.15"
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

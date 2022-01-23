@@ -8,6 +8,10 @@ RUN npm install
 
 COPY . .
 
+# ENV NODE_ENV develop
+
+# RUN npm run db_local_migration
+
 EXPOSE 3000
 
 CMD ["node", "src/server.js"]

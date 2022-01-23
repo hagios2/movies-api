@@ -31,7 +31,7 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - run:  echo "${{ secrets.PROJECT_ENV}}" > .env
+      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
 
       - run: npm install
 
@@ -58,4 +58,3 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-        

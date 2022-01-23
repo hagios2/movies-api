@@ -31,6 +31,7 @@ jobs:
           envkey_HOST: ${{ secrets.HOST }}
           envkey_PASSWORD: ${{ secrets.PASSWORD }}
           envkey_MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          directory: "/home/runner/work/movies-api/movies-api/"
 
       - name: Check Out Repo 
         uses: actions/checkout@v2

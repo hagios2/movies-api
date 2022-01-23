@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Make envfile
-      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
+          run: echo "${{ secrets.PROJECT_ENV}}" > .env
       #   uses: SpicyPizza/create-envfile@v1
       #   with:
       #     envkey_DATABASE: ${{ secrets.DATABASE }}

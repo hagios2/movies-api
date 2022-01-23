@@ -30,12 +30,11 @@ jobs:
         with:
           node-version: '14'
           cache: 'npm'
-        
-        # env:
-        #   HOST: localhost
-        #   USERNAME: oteng
-        #   PASSWORD: password
-        #   DATABASE: starwars
+        env:
+          DATABASE: test_database
+          HOST: 127.0.0.1
+          USERNAME: admin
+          PASSWORD: rootpass
 
       - run: npm install
       - run: npm test

@@ -13,16 +13,25 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          DATABASE: test_database
-          HOST: 127.0.0.1
-          USERNAME: admin
-          PASSWORD: rootpass
-          MYSQL_ROOT_PASSWORD: rootpass
+          DATABASE: ${{ secrets.DATABASE }}
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD:  ${{ secrets.PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DATABASE: ${{ secrets.DATABASE }}
+          envkey_USERNAME: ${{ secrets.USERNAME }}
+          envkey_HOST: ${{ secrets.HOST }}
+          envkey_PASSWORD: ${{ secrets.PASSWORD }}
+          envkey_MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
@@ -31,7 +40,7 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
+      # - run: echo "${{ secrets.PROJECT_ENV}}" > .env
 
       - run: npm install
 
@@ -60,4 +69,3 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
 
-        

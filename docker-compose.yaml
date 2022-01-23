@@ -11,21 +11,24 @@ services:
     ports: 
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
-      - DB_HOST=mysqldb
-      - DB_USER=$USERNAME
-      - DB_PASSWORD=$PASSWORD
-      - DB_NAME=$DATABASE
-      - DB_PORT=$MYSQLDB_DOCKER_PORT
+      - MYSQL_HOST=mysqldb
+      - MYSQL_USER=${USERNAME}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=${DATABASE}
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
 
   mysqldb:
     image: mysql:8
     restart: unless-stopped
+    container_name: movies_api_db
     env_file: .env
     volumes:
       - db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=$PASSWORD
-      - MYSQL_DATABASE=$DATABASE
+      - MYSQL_USER=${USERNAME}
+      - MYSQL_PASSWORD=${PASSWORD}
+      - MYSQL_DATABASE=${DATABASE}
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
 

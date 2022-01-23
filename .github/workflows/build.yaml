@@ -23,7 +23,8 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      # - name: Make envfile
+      - name: Make envfile
+      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
       #   uses: SpicyPizza/create-envfile@v1
       #   with:
       #     envkey_DATABASE: ${{ secrets.DATABASE }}
@@ -40,8 +41,6 @@ jobs:
         with:
           node-version: '14'
           cache: 'npm'
-
-      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
 
       - run: npm install
 

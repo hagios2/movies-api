@@ -34,7 +34,7 @@ jobs:
       - run:  echo "${{ secrets.PROJECT_ENV}}" > .env
 
       - run: npm install
-      
+
       - run: npm test
 
       - name: Login to Docker Hub
@@ -58,3 +58,4 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+        

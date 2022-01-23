@@ -41,7 +41,7 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - run: echo "${{ secrets.PROJECT_ENV}}" > .env
+      - run: echo "${{ secrets.ENV_FOR_PROJECT}}" > .env
 
       - run: npm install
 
